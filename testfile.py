@@ -2,8 +2,10 @@ import pass_generator
 import datetime
 import json
 
-passw = pass_generator.authquator("passw")
-
-auth_data = {"time": int(datetime.datetime.now().hour), "authcode": passw}
-with open("auth_data.json", "a+") as f:
-    json.dump(auth_data, f)
+data = {
+    "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    "auth": pass_generator.authquator(""),
+}
+data_main = json.dumps(data, indent=4)
+with open("auth_data.json", "w") as f:
+    f.write(data_main)

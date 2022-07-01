@@ -32,11 +32,13 @@ elena_gui()
 
 def authanticator():
     try:
-        passw = pass_generator.authquator(passw)
-
-        auth_dat = {"time": int(datetime.datetime.now().hour), "authcode": passw}
-        with open("auth_dat.json", "w") as f:
-            json.dump(auth_dat, f)
+        data = {
+            "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "auth": pass_generator.authquator(""),
+        }
+        data_main = json.dumps(data, indent=4)
+        with open("auth_data.json", "w") as f:
+            f.write(data_main)
     except Exception as e:
         with open("errors.txt", "w") as f:
             f.write(e)

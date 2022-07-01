@@ -13,14 +13,14 @@ passw = ""
 def password(passw):
     for i in range(0, 5):
         passw += random.choice(all)
-        print(passw)
+        
     return passw
 
 
 def authquator(passw):
-    for i in range(0, 9):
+    for i in range(0, 16):
         passw += random.choice(all)
-    print(passw)
+    
 
     return passw
 
