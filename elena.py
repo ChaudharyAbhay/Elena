@@ -21,27 +21,10 @@ import cred
 
 engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")
-# print(voices[1].id)
 engine.setProperty("voice", voices[0].id)
 
-# this is tthe gui functionator
-"""
-elena_gui()
-"""
 
-
-def authanticator():
-    try:
-        data = {
-            "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "auth": pass_generator.authquator(""),
-        }
-        data_main = json.dumps(data, indent=4)
-        with open("auth_data.json", "w") as f:
-            f.write(data_main)
-    except Exception as e:
-        with open("errors.txt", "w") as f:
-            f.write(e)
+# the gui function
 
 
 def speak(audio):
@@ -63,6 +46,43 @@ def wishMe():
     speak("Hello Sir How are you I am Elena How can I help you")
 
 
+# login detector
+def login_detector():
+    f = open("auth_data.json")
+    auth_json_data = json.load(f)
+    if isinstance(auth_json_data, dict):
+        try:
+            if auth_json_data["auth"] == auth_json_data["auth"]:
+                pass
+            else:
+                with open("errors.txt", "w") as f:
+                    f.write("Authentication Failed due to Missmatch of data")
+            pass
+        except Exception as e:
+            with open("errors.txt", "w") as f:
+                f.write(e)
+    else:
+        pass
+    pass
+
+
+login_detector()
+
+# authentation
+def authanticator():
+    try:
+        data = {
+            "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "auth": pass_generator.authquator(""),
+        }
+        data_main = json.dumps(data, indent=4)
+        with open("auth_data.json", "w") as f:
+            f.write(data_main)
+    except Exception as e:
+        with open("errors.txt", "w") as f:
+            f.write(e)
+
+
 # shortcut key program
 def shortcut(key):
     keyboard.add_hotkey(key)
@@ -75,14 +95,6 @@ def open_websites(query):
     webbrowser.open(query)
     speak("Opening Website" + query)
     webbrowser.open(query)
-
-
-# # shortcut keys
-# shortcut(
-#     "ctrl+win+w",
-#     speak("Opening Website"),
-#     open_websites(),
-# )  # shortcut of opening website
 
 
 # AI of elena
@@ -115,14 +127,23 @@ def ask_name(name):
     elena_name = json.dump(name) in elena_name
 
 
-# def ask_cred():
-#     speak("Okay! Let me ask you some details real quick")
-#     try:
-#         login_elena()
-#     except:
-#         speak("Sorry! , i was unable to do this at current moment")
+def ask_cred():
+    speak("Okay! Let me ask you some details real quick")
+    try:
+        try:
+            authanticator()
+            speak("Authentication Process Completed")
+        except Exception as e:
+            with open("errors.txt", "w") as f:
+                f.write(e)
+            speak(
+                "Error Creating a token Currently! You might have to login again next Time"
+            )
 
-#     pass
+    except:
+        speak("Sorry! , i was unable to do this at current moment")
+
+    pass
 
 
 def sendEmail(to, content):
