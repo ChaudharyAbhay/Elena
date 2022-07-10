@@ -1,5 +1,8 @@
 from asyncore import write
+from curses import has_key
+from operator import contains
 from tkinter import E
+from unicodedata import name
 import googlesearch
 from numpy import take
 import pyttsx3
@@ -14,6 +17,7 @@ from googlesearch import search as sre
 import pywhatkit as pwt
 import json
 import keyboard
+import csv
 
 # import elena_gui
 import pass_generator
@@ -43,7 +47,16 @@ def wishMe():
     else:
         speak("Good Evening!")
 
-    speak("Hello Sir How are you I am Elena How can I help you")
+    speak(" How are you I am Elena How can I help you")
+
+
+# main data
+data = {}
+
+
+def data_commit():
+    with open("user_data.json", "w") as f:
+        json.dump(data, f)
 
 
 # login detector
@@ -65,8 +78,6 @@ def login_detector():
         pass
     pass
 
-
-login_detector()
 
 # authentation
 def authanticator():
@@ -121,10 +132,16 @@ def takeCommand():
     return query
 
 
-def ask_name(name):
-    speak("Hello I am Elena , What is your Good Name")
-    name = takeCommand().replace("my name is", "")
-    elena_name = json.dump(name) in elena_name
+def askname():
+    with open("user_data.json", "r") as f:
+        data2 = json.load(f)
+    if "Name" in data2:
+        pass
+    else:
+        speak("May i ask your good name please")
+        name = query.replace("my name is", "")
+        data.update({"Name": name})
+        data_commit()
 
 
 def ask_cred():
