@@ -1,5 +1,3 @@
-from asyncore import write
-from curses import has_key
 from operator import contains
 from tkinter import E
 from unicodedata import name
@@ -99,6 +97,7 @@ def shortcut(key):
     keyboard.add_hotkey(key)
 
 
+
 # functions for shortcut keys
 def open_websites(query):
     speak("Which website do you want to open")
@@ -170,8 +169,14 @@ def sendEmail(to, content):
     server.login(cred.mail_id, cred.password)
     server.sendmail(to, content)
     server.close()
-
-
+#error handeling for speach commands
+def report_error(e):
+    with open("errors.txt", "w") as f:
+        f.write(e)
+#opening data of question bank
+with open("question_bank.json" ,"r") as f:
+    quest = json.load(f)
+    pass    
 if __name__ == "__main__":
     wishMe()
     while True:
@@ -197,11 +202,17 @@ if __name__ == "__main__":
             speak("Which application do you want to open")
             query = query.replace("open application", "")
             speak("Opening Application" + query)
-            os.system(query)
+            try:
+                os.system(query)
+            except Exception as e:
+                report_error(e)
+                speak("Sorry! , i was unable to do this at current moment")    
+            
             pass
+        
 
-        # elif "Hello how are you" or "hi how are you doing" or "sup " in query:
-        #     speak("I am doing Great Thanks for asking")
+        elif "Hello how are you" or "hi how are you doing" or "sup " in query:
+            speak("I am doing Great Thanks for asking")
         elif "Go to sleep" in query:
             speak("taking a nap, Say hello elena to wake me up again")
             while True:
@@ -235,13 +246,23 @@ if __name__ == "__main__":
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir, the time is {strTime}")
         elif "open code" in query:
-            codePath = "C:\\Users\\Abhay\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
-            os.startfile(codePath)
+            codePath = "vscode.exe"
+            try:
+                os.startfile(codePath)
+            except Exception as e:
+                report_error(e) 
+                speak("Sorry I was unable to do this at current moment")
         elif "open browser" in query:
             webbrowser.open("google.com")
         elif "open notepad" in query:
-            notepadPath = "C:\\Program Files\\Notepad++\\notepad++.exe"
-            os.startfile(notepadPath)
+            notepad = "notepad.exe"
+            try:
+                os.startfile(notepad)
+            except Exception as e:
+                report_error(e) 
+                speak("Sorry I was unable to do this at current moment") 
+        
+            
         elif "what is" in query:
             pwt.search(query)
         elif "who is" in query:
@@ -266,6 +287,9 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("Sorry my friend  . I am not able to send this email")
+        #making general talking instances 
+        
+            
         elif "exit the program" in query:
             speak("Bye bye Have a great day")
             sys.exit()
