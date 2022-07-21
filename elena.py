@@ -1,6 +1,3 @@
-from operator import contains
-from tkinter import E
-from unicodedata import name
 import googlesearch
 from numpy import take
 import pyttsx3
@@ -26,14 +23,14 @@ voices = engine.getProperty("voices")
 engine.setProperty("voice", voices[0].id)
 
 
-# the gui function
+# the gui function to be added here should work with rest of the code running on loop
 
 
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
-
+#this is the wishme functions runs everytime
 def wishMe():
     hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour < 12:
@@ -57,7 +54,7 @@ def data_commit():
         json.dump(data, f)
 
 
-# login detector
+# login detector - it is not in work currently Working shall be added when email login function would be on work
 def login_detector():
     f = open("auth_data.json")
     auth_json_data = json.load(f)
@@ -77,7 +74,7 @@ def login_detector():
     pass
 
 
-# authentation
+#Creates a token for a particular device to remember the credentials and data
 def authanticator():
     try:
         data = {
@@ -92,23 +89,13 @@ def authanticator():
             f.write(e)
 
 
-# shortcut key program
-def shortcut(key):
-    keyboard.add_hotkey(key)
 
 
 
-# functions for shortcut keys
-def open_websites(query):
-    speak("Which website do you want to open")
-    query = takeCommand()
-    webbrowser.open(query)
-    speak("Opening Website" + query)
-    webbrowser.open(query)
 
 
-# AI of elena
 
+# AI of elena it shall contan all the frequent data user asks and process it in a way that user wants.
 
 def takeCommand():
     # It takes microphone input from the user and returns string output
@@ -130,7 +117,7 @@ def takeCommand():
         return "None"
     return query
 
-
+#asks for the name in stores it in data
 def askname():
     with open("user_data.json", "r") as f:
         data2 = json.load(f)
@@ -142,7 +129,7 @@ def askname():
         data.update({"Name": name})
         data_commit()
 
-
+#asks for credentials (email login)
 def ask_cred():
     speak("Okay! Let me ask you some details real quick")
     try:
@@ -161,7 +148,7 @@ def ask_cred():
 
     pass
 
-
+#send email function working with smptlib
 def sendEmail(to, content):
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.ehlo()
@@ -169,7 +156,7 @@ def sendEmail(to, content):
     server.login(cred.mail_id, cred.password)
     server.sendmail(to, content)
     server.close()
-#error handeling for speach commands
+#error handeling for speech commands
 def report_error(e):
     with open("errors.txt", "w") as f:
         f.write(e)
@@ -177,28 +164,29 @@ def report_error(e):
 with open("question_bank.json" ,"r") as f:
     quest = json.load(f)
     pass    
+#completes the query and requests by the user
 if __name__ == "__main__":
     wishMe()
     while True:
-        # if 1:
+        
         query = takeCommand().lower()
 
         # Logic for executing tasks based on query
-        if "wikipedia" in query:
+        if "wikipedia" in query:#opens wikipedia
             speak("Searching Wikipedia...")
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences=2)
             speak("According to Wikipedia")
             print(results)
             speak(results)
-        elif "open website" in query:
+        elif "open website" in query:#opens any website , asked by the user *removing open website from query
             speak("Which website do you want to open")
             query = query.replace("open website", "")
             speak("Opening Website" + query)
             webbrowser.open(query)
 
             pass
-        elif "open application" in query:
+        elif "open application" in query:#opens application using os.system asked by the user *removing oepn appication from query
             speak("Which application do you want to open")
             query = query.replace("open application", "")
             speak("Opening Application" + query)
@@ -211,15 +199,14 @@ if __name__ == "__main__":
             pass
         
 
-        elif "Hello how are you" or "hi how are you doing" or "sup " in query:
-            speak("I am doing Great Thanks for asking")
-        elif "Go to sleep" in query:
+        elif "Go to sleep" in query:#disables mic and goes on sleep DOES NOT WORK CURRENTLY
             speak("taking a nap, Say hello elena to wake me up again")
             while True:
                 query = takeCommand().lower()
                 if "hello elena" in query:
                     speak("Hello Sir How are you I am Elena How can I help you")
                     break
+        #opening some common webites *Removing open from query            
         elif "open google" in query:
             webbrowser.open("google.com")
             print("program is opening google")
@@ -235,26 +222,28 @@ if __name__ == "__main__":
             print("program is opening stackoverflow")
         elif "how are you" in query:
             speak("I am Doing Great thanks for asking")
+        #search for uses google lib and searches on google for results *Removes 'search for' from query    
         elif "search for" in query:
             query = query.replace("search for", "")
             pwt.search(query)
         elif "google search" in query:
+            #uses google for search Same function as above *Removes 'google search' from query
             query = query.replace("google search", "")
             pwt.search(query)
 
-        elif "the time" in query:
+        elif "the time" in query:#tells the current time
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir, the time is {strTime}")
-        elif "open code" in query:
+        elif "open code" in query:#useless
             codePath = "vscode.exe"
             try:
                 os.startfile(codePath)
             except Exception as e:
                 report_error(e) 
                 speak("Sorry I was unable to do this at current moment")
-        elif "open browser" in query:
+        elif "open browser" in query:#opens the default browser *may open internet explorer for some users
             webbrowser.open("google.com")
-        elif "open notepad" in query:
+        elif "open notepad" in query:#useless 2
             notepad = "notepad.exe"
             try:
                 os.startfile(notepad)
@@ -262,7 +251,7 @@ if __name__ == "__main__":
                 report_error(e) 
                 speak("Sorry I was unable to do this at current moment") 
         
-            
+         #some basic what is who is how is questions , uses google to answer and opens the browser as result *Does not remove anything from query
         elif "what is" in query:
             pwt.search(query)
         elif "who is" in query:
@@ -273,10 +262,10 @@ if __name__ == "__main__":
             pwt.search(query)
         elif "how is the weather" in query:
             pass  # add the weather
-        elif "create a password" in query:
+        elif "create a password" in query:#creates a random digit passwork using pass_generator file
             pass_generator.password()
             speak(pass_generator.passw, "is the password")
-        elif "Email To" in query:
+        elif "Email To" in query:#sends email using the email function made
             try:
                 speak("What should I say?")
                 content = takeCommand()
