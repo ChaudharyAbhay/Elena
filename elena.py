@@ -89,11 +89,23 @@ def authanticator():
             f.write(e)
 
 
-
-
-def manage_data():
-    
-
+def calculate(query):
+    int first = [int(i) for i in query.split() if i.isdigit()]
+    first = first
+    int second = [int(i) for i in query.split() if i.isdigit()]
+    second = second
+    operator = [int(i) for i in query.split() if i== "add","subtract","multiply","divide"]
+    if operator == "add":
+        result = first+second
+        pass
+    elif operator == "subtract":
+        result = first-second
+        pass 
+    elif operator == "multiply":
+        result == first*second
+    elif operator == "divide":
+        result = first/second
+    return operator
 
 
 # AI of elena it shall contan all the frequent data user asks and process it in a way that user wants.
