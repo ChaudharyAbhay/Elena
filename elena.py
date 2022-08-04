@@ -91,7 +91,8 @@ def authanticator():
 
 
 
-
+def manage_data():
+    
 
 
 
@@ -116,6 +117,13 @@ def takeCommand():
         print("Say that again please...")
         return "None"
     return query
+#set reminder function
+def reminder(time):
+    cur = datetime.datetime.now()
+    utime = query
+    while utime != cur:
+        return cur
+
 
 #asks for the name in stores it in data
 def askname():
@@ -276,6 +284,9 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("Sorry my friend  . I am not able to send this email")
+        elif "set reminder" , "remind me" in query:
+            reminder(time)
+
         #making general talking instances 
         
             
