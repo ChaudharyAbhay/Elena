@@ -297,7 +297,15 @@ if __name__ == "__main__":
                 print(e)
                 speak("Sorry my friend  . I am not able to send this email")
         elif "set reminder" , "remind me" in query:
+            #ask time also
             reminder(time)
+        elif "open file" in query:
+            query = query.replace("open file" , "")
+            try:
+                os.open(query)
+                pass
+            except:
+                speak("Sorry! File Not Found")
 
         #making general talking instances 
         
