@@ -90,11 +90,11 @@ def authanticator():
 
 
 def calculate(query):
-    int first = [int(i) for i in query.split() if i.isdigit()]
+    first = [int(i) for i in query.split() if i.isdigit()]
     first = first
-    int second = [int(i) for i in query.split() if i.isdigit()]
+    second = [int(i) for i in query.split() if i.isdigit()]
     second = second
-    operator = [int(i) for i in query.split() if i== "add","subtract","multiply","divide"]
+    operator = [int(i) for i in query.split() if i== ("add","subtract","multiply","divide")]
     if operator == "add":
         result = first+second
         pass
@@ -296,7 +296,7 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("Sorry my friend  . I am not able to send this email")
-        elif "set reminder" , "remind me" in query:
+        elif "set reminder" | "remind me" in query:
             reminder(time)
 
         #making general talking instances 
