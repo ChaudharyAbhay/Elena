@@ -297,11 +297,9 @@ if __name__ == "__main__":
                 print(e)
                 speak("Sorry my friend  . I am not able to send this email")
         elif "set reminder" | "remind me" in query:
-<<<<<<< HEAD
             reminder()
-=======
-            reminder(time)
->>>>>>> 8d6825dd914f230921cd43a94b7cf55b01083514
+
+
 
         #making general talking instances 
         
