@@ -87,7 +87,7 @@ def authanticator():
     except Exception as e:
         with open("errors.txt", "w") as f:
             f.write(e)
-
+            
 
 def calculate(query):
     first = [int(i) for i in query.split() if i.isdigit()]
